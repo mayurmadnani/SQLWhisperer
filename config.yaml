@@ -31,7 +31,7 @@ temperature:
 database_url: postgresql+psycopg2://agentic:agentic@localhost:5433/agenticdb
 
 # ── Application ──────────────────────────────────────────────────────────
-timeout: 90             # LLM request timeout in seconds
+timeout: 180             # LLM request timeout in seconds
 data_sample_size: 10    # rows shown in dataset previews
 max_sql_retries: 2      # max automatic repair attempts on execution failure
 
