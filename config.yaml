@@ -1,0 +1,41 @@
+# SQLWhisperer configuration
+# Environment variables override any value here.
+# Set CONFIG_FILE=/path/to/other.yaml to use a different config file.
+
+# ── LLM backend ──────────────────────────────────────────────────────────
+# "ollama"  → uses ollama.api_url below
+# "docker"  → uses docker.model_runner_url (Docker Desktop >= 4.41, OpenAI-compat)
+backend: ollama
+
+ollama:
+  api_url: http://localhost:11434/api/chat
+
+docker:
+  model_runner_url: http://localhost:12434/engines/v1/chat/completions
+
+# ── Models ───────────────────────────────────────────────────────────────
+# For Ollama: model names as returned by `ollama list`
+# For Docker Model Runner: model names as returned by `docker model list`
+models:
+  draft: gemma4:12b
+  validation: llama3:8b
+  summary: gemma3:4b
+
+# ── Temperature  (0 = deterministic, 1 = highly creative) ────────────────
+temperature:
+  draft: 0.4        # some variation helps the planner explore SQL approaches
+  validation: 0.1   # keep the validator deterministic
+  summary: 0.3      # mild variation for natural-sounding prose
+
+# ── Database ─────────────────────────────────────────────────────────────
+database_url: postgresql+psycopg2://agentic:agentic@localhost:5433/agenticdb
+
+# ── Application ──────────────────────────────────────────────────────────
+timeout: 90             # LLM request timeout in seconds
+data_sample_size: 10    # rows shown in dataset previews
+max_sql_retries: 2      # max automatic repair attempts on execution failure
+
+# ── Feature flags ────────────────────────────────────────────────────────
+streaming: false        # Ollama streaming responses (Docker backend ignores this)
+debug_sql: false        # log SQL text before execution
+explain_analyze: false  # include ANALYZE in EXPLAIN (adds runtime metrics)
